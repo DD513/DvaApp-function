@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from "react";
+import { Provider } from "react-redux";
+import { create } from "dva-core";
+import Router from "./app/router";
 
-export default function App() {
+import name from "./app/models/nameModel";
+import message from "./app/models/messageModel";
+
+const app = create(); // 使用create方法建立Dva架構。
+app.model(name);
+app.model(message);
+
+app.start();
+const store = app._store;
+
+export default App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <Router></Router>
+    </Provider>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
